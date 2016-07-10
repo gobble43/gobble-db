@@ -112,7 +112,7 @@ const postReview = function(req, res) {
           body: JSON.stringify({ upc: post.upc }),
         })
         .then(response => {
-          // console.log(response);
+          console.log(response);
         })
         .catch(err => {
           console.err(err);

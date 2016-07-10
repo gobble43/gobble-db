@@ -7,7 +7,7 @@ process.env.DB_PASSWORD = 'abc';
 const createDummyUsers = function(nUsers) {
   const promises = [];
   for (let facebookId = 1; facebookId < nUsers; facebookId++) {
-    promises.push(User.save({ facebook_id: facebookId, first_name: `test${facebookId}`, last_name: `last${facebookId}`, photo_url: '/images/gobble-logo.png' }));
+    promises.push(User.save({ facebook_id: facebookId, first_name: `test${facebookId}`, last_name: `last${facebookId}`, photo_url: '/images/gobblelogo.png' }));
   }
   return Promise.all(promises);
 };
