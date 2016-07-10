@@ -1,6 +1,9 @@
 const { User, Post, Product, Category, ProductCategory, Tag, ProductTag, Ingredient, ProductIngredient, Media } = require('./../models');
 const QueryBuilder = require('../orm/querybuilder');
 
+const fetch = require('isomorphic-fetch');
+const gobbleNutrients = process.env.GOBBLE_NUTRIENTS_URL;
+
 const addCategories = (upc, categories) => {
   for (let i = 0; i < categories.length; i++) {
     Category.fetch({ name: categories[i] })
@@ -100,6 +103,22 @@ const addIngredients = (upc, ingredients) => {
 
 const postProduct = (req, res) => {
   console.log('new product to be inserted: ', req.body);
+
+  fetch(`${gobbleNutrients}/api/addProduct`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(req.body),
+  })
+  .then(response => {
+    console.log('RESPONSE FROM GOBBLE_NUTRIENTS: ', response);
+  })
+  .catch(err => {
+    console.err(err);
+  });
+
   const categories = req.body.categories;
   const tags = req.body.tags;
   const ingredients = req.body.ingredients;
@@ -134,7 +153,6 @@ const postProduct = (req, res) => {
   addTags(product.upc, tags);
   // add the product ingredients
   addIngredients(product.upc, ingredients);
-
   res.end();
 };
 
